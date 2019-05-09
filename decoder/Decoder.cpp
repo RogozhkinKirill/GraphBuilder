@@ -5,6 +5,10 @@
 /*these realization is a simple copy of article, link in the ReadMe.md , but in c++*/
 
 #include <cassert>
+#include <cmath>
+#include <iostream>
+#include <set>
+
 #include "Decoder.h"
 
 
@@ -16,15 +20,15 @@ Result::Result(double accumulator, std::string rest) {
 double MatchParser::Parse(std::string str) {
     Result *result = plusMinus(str);
 
-    if (result->rest.length() == 0){
-        assert("Error: can't parse because of rest.length() == 0");
+    if (!result->rest.empty()){
+        assert("Error: can't parse");
     }
 
     return result->accumulator;
 }
 
 Result* MatchParser::plusMinus(std::string str) {
-    Result *current = Num(str);
+    Result *current = MulDiv(str);
     double acc = current->accumulator;
 
     while(current->rest.length() > 0){
@@ -38,7 +42,7 @@ Result* MatchParser::plusMinus(std::string str) {
 
         acc = current->accumulator;
 
-        current = Num(next);
+        current = MulDiv(next);
         if (sign == '+'){
             acc += current->accumulator;
         }
@@ -46,10 +50,103 @@ Result* MatchParser::plusMinus(std::string str) {
             acc -= current->accumulator;
         }
 
-        current->accumulator = acc;
     }
 
-    return new Result(current->accumulator, current->rest);
+    return new Result(acc, current->rest);
+}
+
+Result *MatchParser::Bracket(std::string str) {
+    char zeroChar = str[0];
+    if (zeroChar == '('){
+        Result *result = plusMinus(str.substr(1));
+
+        if (!result->rest.empty() && result->rest[0] == ')'){
+            result->rest = result->rest.substr(1);
+        }
+        else{
+            assert("Error: 2n + 1 brackets");
+        }
+
+        return result;
+    }
+
+    return FunctionVariable(str);
+}
+
+Result *MatchParser::FunctionVariable(std::string str) {
+    std::string fun;
+    size_t i = 0;
+    while(i < str.length() && ((isletter(str[i])) || (isdigit(str[i]) && i > 0))){
+        fun.push_back(str[i]);
+        i++;
+    }
+    std::cout << "fun: "<< fun << std::endl;
+    std::cout << "i: " << i << std::endl;
+
+    if (!fun.empty()){
+        if (str.length() > i && str[i] == '('){
+            Result *result = Bracket(str.substr(fun.length()));
+
+            return processFunction(fun, result);
+        }
+        else{
+            std::cout << "i have found a variable"<< std::endl;
+            return new Result(getVariableByName(fun), str.substr(fun.length()));
+        }
+    }
+
+    return Num(str);
+}
+
+Result *MatchParser::MulDiv(std::string str) {
+    Result *current = Bracket(str);
+
+    double acc = current->accumulator;
+
+    while(true){
+        if (current->rest.length() == 0){
+            return current;
+        }
+        char sign = current->rest[0];
+
+        if (sign != '*' && sign != '/' && sign!= '^'){
+            return current;
+        }
+
+        std::string next = current->rest.substr(1);
+        Result *right = Bracket(next);
+
+        if (sign == '*'){
+            acc *= right->accumulator;
+        }
+        if (sign == '/'){
+            acc /= right->accumulator;
+        }
+        if (sign == '^'){
+            acc = pow(acc, right->accumulator);
+        }
+
+        current = new Result(acc, right->rest);
+    }
+}
+
+Result *MatchParser::processFunction(std::string func, Result *result) {
+    if (func == "sin"){
+        std::cout<< "sin arg is: "<<result->accumulator <<std::endl;
+        return new Result(sin(result->accumulator), result->rest);
+    }
+
+    else if (func == "cos"){
+        return new Result(cos(result->accumulator), result->rest);
+    }
+
+    else if (func == "tan"){
+        return new Result(tan(result->accumulator), result->rest);
+    }
+
+    else{
+        assert("Error: function is not defined");
+    }
 }
 
 Result* MatchParser::Num(std::string str) {
@@ -72,6 +169,45 @@ Result* MatchParser::Num(std::string str) {
     }
 
     std::string restPart = str.substr(i);
-
+    std::cout << "dPart: " << dPart << std::endl;
     return new Result(dPart, restPart);
+}
+
+
+
+
+double MatchParser::getVariableByName(std::string variableName) {
+    std::map<std::string, double>::iterator itr = this->variables.find(variableName) ;
+
+   if (itr != this->variables.end()){
+            return itr->second;
+   }
+
+
+    else{
+            assert("there is no such variable");
+
+            return 0.0;
+    }
+
+}
+
+void MatchParser::setVariable(std::string variableName, double variableValue) {
+    this->variables.insert({variableName, variableValue});
+}
+
+
+bool isletter(char c) {
+    std::set<char> alphabet = {'a', 'b', 'c', 'd', 'e',
+                               'f', 'g', 'i', 'j', 'k',
+                               'l', 'm', 'n', 'o', 'p',
+                               't', 'r', 'u','x', 'y',
+                               'z', 'q', 'w', 'v', 's', 'h'};
+    if (alphabet.count(c) == 0){
+        return false;
+    }
+
+    else{
+        return true;
+    }
 }
