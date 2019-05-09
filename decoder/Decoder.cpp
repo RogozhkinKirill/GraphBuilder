@@ -80,8 +80,6 @@ Result *MatchParser::FunctionVariable(std::string str) {
         fun.push_back(str[i]);
         i++;
     }
-    std::cout << "fun: "<< fun << std::endl;
-    std::cout << "i: " << i << std::endl;
 
     if (!fun.empty()){
         if (str.length() > i && str[i] == '('){
@@ -90,7 +88,6 @@ Result *MatchParser::FunctionVariable(std::string str) {
             return processFunction(fun, result);
         }
         else{
-            std::cout << "i have found a variable"<< std::endl;
             return new Result(getVariableByName(fun), str.substr(fun.length()));
         }
     }
@@ -132,7 +129,6 @@ Result *MatchParser::MulDiv(std::string str) {
 
 Result *MatchParser::processFunction(std::string func, Result *result) {
     if (func == "sin"){
-        std::cout<< "sin arg is: "<<result->accumulator <<std::endl;
         return new Result(sin(result->accumulator), result->rest);
     }
 
@@ -169,7 +165,6 @@ Result* MatchParser::Num(std::string str) {
     }
 
     std::string restPart = str.substr(i);
-    std::cout << "dPart: " << dPart << std::endl;
     return new Result(dPart, restPart);
 }
 
