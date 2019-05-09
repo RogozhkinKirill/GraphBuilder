@@ -2,7 +2,7 @@
 // Created by igor on 08.05.19.
 //
 
-/*these realization is a simple copy of article, link in the ReadMe.md , but in c++*/
+/*this realization is a simple copy of article, link in the ReadMe.md , but in c++*/
 
 #include <cassert>
 #include <cmath>
