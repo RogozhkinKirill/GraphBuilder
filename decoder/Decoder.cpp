@@ -188,7 +188,14 @@ double MatchParser::getVariableByName(std::string variableName) {
 }
 
 void MatchParser::setVariable(std::string variableName, double variableValue) {
-    this->variables.insert({variableName, variableValue});
+    if (!this->variables.empty()){
+        std::map<std::string, double>::iterator itr = this->variables.find(variableName);
+        itr->second = variableValue;
+    }
+
+    else{
+        this->variables.insert({variableName, variableValue});
+    }
 }
 
 

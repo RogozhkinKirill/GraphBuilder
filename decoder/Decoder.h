@@ -1,7 +1,6 @@
 //
 // Created by igor on 08.05.19.
 //
-
 #ifndef GRAPHBUILDER_DECODER_H
 #define GRAPHBUILDER_DECODER_H
 
