@@ -3,19 +3,15 @@
 
 #include <QWidget>
 #include <QValidator>
+#include <QFile>
+#include <QFileDialog>
+#include <QDebug>
 
 
 #include <iostream>
 #include <string>
 #include <cmath>
 #include <assert.h>
-
-#include "../GraphBuilder-develop/decoder/Decoder.h"
-#include "../GraphBuilder-develop/checker/Checker.h"
-#include "../GraphBuilder-develop/tests/tests.h"
-#include "../GraphBuilder-develop/checker/utils/EmptyStringException.h"
-#include "../GraphBuilder-develop/parallel/execute.h"
-
 
 namespace Ui {
 class mPlots;

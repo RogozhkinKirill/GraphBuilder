@@ -44,6 +44,7 @@ mPlots::setupDefault(void) {
     ui->ButtonOk->setEnabled(true);
     ui->ButtonClear->setEnabled(true);
 
+
     //Default text
     ui->Function->setText("x^2");
     ui->Left_Side->setText("-1");
