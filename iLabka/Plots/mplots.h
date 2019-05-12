@@ -13,6 +13,11 @@
 #include <cmath>
 #include <assert.h>
 
+#include "../../decoder/Decoder.h"
+#include "../../checker/Checker.h"
+#include "../../checker/utils/EmptyStringException.h"
+#include "../../parallel/execute.h"
+
 namespace Ui {
 class mPlots;
 }

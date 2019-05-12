@@ -131,12 +131,17 @@ mPlots::buildGraph(const QString & s) {
     double maxY = 0.0;
     double minY = 0.0;
 
+    MatchParser *mp = new MatchParser();
+
     double k = (right_range - left_range) / split;
     QVector<double> x(split), y(split); // initialize with entries 0..100
     for(int i=0; i<split; ++i)
     {
       x[i] = i*k + left_range; // x goes from left_range to right_range
-      y[i] = x[i] * x[i];
+      //y[i] = x[i] * x[i];
+      mp->setVariable("x" , x[i]);
+      y[i] = mp->Parse(str);
+
 
       if(i == 0) {
           maxY = minY = y[0];

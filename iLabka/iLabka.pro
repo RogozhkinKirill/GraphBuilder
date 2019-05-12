@@ -28,7 +28,10 @@ SOURCES += \
         mainwindow.cpp \
     ../qcustomplot/qcustomplot.cpp \
     Info/About_iLabka/about_ilabka.cpp \
-    Plots/mplots.cpp
+    Plots/mplots.cpp \
+    ../checker/Checker.cpp \
+    ../decoder/Decoder.cpp \
+    ../parallel/execute.cpp
 
 
 HEADERS += \
@@ -36,6 +39,12 @@ HEADERS += \
     ../qcustomplot/qcustomplot.h \
     Info/About_iLabka/about_ilabka.h \
     Plots/mplots.h \
+    ../checker/utils/EmptyStringException.h \
+    ../checker/utils/NoSuchFormatException.h \
+    ../checker/Checker.h \
+    ../constants/Constants.h \
+    ../decoder/Decoder.h \
+    ../parallel/execute.h
 
 
 
@@ -44,6 +53,7 @@ FORMS += \
     Info/About_iLabka/about_ilabka.ui \
     Plots/mplots.ui
 
+QMAKE_LFLAGS += -fopenmp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
