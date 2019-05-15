@@ -6,8 +6,8 @@
 #define GRAPHBUILDER_CONSTANTS_H
 
 
-#define PI = 3.141592653
-#define E = 2.718281
+#define PI 3.141592653
+#define E 2.718281
 
 
 
