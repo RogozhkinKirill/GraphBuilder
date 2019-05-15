@@ -5,7 +5,6 @@
 
 #include "decoder/Decoder.h"
 #include "checker/Checker.h"
-#include "tests/tests.h"
 #include "checker/utils/EmptyStringException.h"
 #include "parallel/execute.h"
 

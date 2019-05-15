@@ -19,7 +19,7 @@ double* giveOutput(std::string str, double *input, size_t size) {
 
     unsigned int i = 0;
     static int threadId;
-    omp_set_num_threads(5);
+    omp_set_num_threads(size);
 
     static double startTime = omp_get_wtime();
 
