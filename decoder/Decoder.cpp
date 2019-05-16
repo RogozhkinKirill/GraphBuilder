@@ -140,8 +140,28 @@ Result *MatchParser::processFunction(std::string func, Result *result) {
         return new Result(tan(result->accumulator), result->rest);
     }
 
+    else if (func == "ln"){
+        return new Result(log(result->accumulator), result->rest);
+    }
+
+    else if (func == "exp"){
+        return new Result(exp(result->accumulator), result->rest);
+    }
+
+    else if (func == "arcsin"){
+        return new Result(asin(result->accumulator), result->rest);
+    }
+
+    else if (func == "abs"){
+        return new Result(std::abs(result->accumulator), result->rest);
+    }
+
+    else if (func == "log10"){
+        return new Result(log10(result->accumulator), result->rest);
+    }
+
     else{
-        assert("Error: function is not defined");
+        perror("Error: function is not defined");
     }
 }
 

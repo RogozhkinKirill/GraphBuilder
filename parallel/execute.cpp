@@ -17,24 +17,28 @@ double* giveOutput(std::string str, double *input, size_t size) {
     double *output = new double[size];
     init(output, size);
 
+    unsigned int i = 0;
     static int threadId;
     omp_set_num_threads(size);
 
     static double startTime = omp_get_wtime();
 
     MatchParser *mp = new MatchParser();
-
     #pragma omp parallel
     {
-        threadId = omp_get_thread_num();
 
-        mp->setVariable("x", input[threadId]);
-        output[threadId] = mp->Parse(str);
+        #pragma omp single
+        for (i = 0; i < size; i++){
+            if (output[i] == 0.0) {
+                mp->setVariable("x", input[i]);
+                output[i] = mp->Parse(str);
+            }
+        }
     }
 
     static double endTime = omp_get_wtime();
     static double totalTime = endTime - startTime;
-    std::cout << "Executing time: " <<totalTime <<std::endl;
+    std::cout << "Executing time: " << totalTime << std::endl;
 
 
     return output;

@@ -1,0 +1,10 @@
+output of fast fourier transform
+output format: real image
+10 0
+5.41421 4.82843
+2 2
+2.58579 0.828427
+2 2.35917e-09
+2.58579 -0.828427
+2 -2
+5.41421 -4.82843
