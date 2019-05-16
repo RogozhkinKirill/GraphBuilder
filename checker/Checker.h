@@ -15,7 +15,8 @@ enum ParseError{
 
 class Checker{
 public:
-    void check(char* str);
+    std::string check(std::string str);
+    std::string constantsPrepared(std::string str);
 };
 
 #endif //GRAPHBUILDER_CHECKER_H

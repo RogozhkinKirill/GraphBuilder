@@ -1,0 +1,10 @@
+output of reverse fast fourier transform
+output format: real image
+1.25 0
+0.676777 -0.603553
+0.25 -0.25
+0.323223 -0.103553
+0.25 2.94897e-10
+0.323223 0.103553
+0.25 0.25
+0.676777 0.603553
