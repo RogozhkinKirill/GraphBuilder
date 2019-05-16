@@ -12,31 +12,6 @@
 std::string REVERSEMSG = "output of reverse fast fourier transform";
 std::string COMMONMSG = "output of fast fourier transform";
 
-void ConsoleInterface(){
-
-    std::cout << "Command list: fourier transform" << std::endl <<
-    "reverse fourier transform" << std::endl <<
-    "calculate the function at x" << std::endl;
-
-    std::cout << "Enter command: " << std::endl;
-
-    std::string command;
-
-    std::cin >> command;
-
-    if (command == "fourier transform"){
-
-    }
-
-    if (command == "reverse fourier transform"){
-
-    }
-
-    if (command  == "calculate the function at x"){
-
-    }
-}
-
 void decoderTests(){
     Checker *ch = new Checker();
 
@@ -83,20 +58,21 @@ void fourierTests(){
         input[i] = tmp;
     }
 
-    vectorBase result = fastFourierTransform(input);
-    vectorBase reverseResult = fastReverseFourierTransform(input);
 
+    vectorBase result = fastFourierTransform(input);
     printTransformResult(result, COMMONMSG, n);
+
+    vectorBase reverseResult = fastReverseFourierTransform(input);
     printTransformResult(reverseResult, REVERSEMSG, n);
 
     std::cout << "You could see results at output/fourier.txt or output/reverseFourier.txt" << std::endl;
 }
 
-
 int main() {
 
     //decoderTests();
     fourierTests();
+
 
     return 0;
 }
