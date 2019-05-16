@@ -19,6 +19,8 @@ mPlots::setupPlot(void) {
     //Setup default setting
     setupDefault();
 
+    ui->pl->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
+
     //Enable only doubles in range lines
     ui->Left_Side->setValidator(new QDoubleValidator(this));
     ui->Right_Side->setValidator(new QDoubleValidator(this));
@@ -36,6 +38,28 @@ mPlots::setupPlot(void) {
             this , SLOT(Function2ButtonOk(const QString &)));
     connect(ui->SplitEdit,  SIGNAL(textChanged(const QString &)) ,
             this , SLOT(Function2ButtonOk(const QString &)));
+}
+
+const QPushButton &
+mPlots::getButtonOk(void) {
+    return * ui->ButtonOk;}
+
+QLineEdit &
+mPlots::getFunction(void) {
+    return * ui->Function;
+}
+
+bool
+mPlots::getButtonStatus(void) {
+    QString left_range  = ui->Left_Side->text();
+    QString right_range = ui->Right_Side->text();
+    QString function    = ui->Function->text();
+    QString split       = ui->SplitEdit->text();
+
+    return (left_range.isEmpty() ||
+        right_range.isEmpty() ||
+        function.isEmpty() ||
+        split.isEmpty());
 }
 
 void
@@ -71,12 +95,8 @@ mPlots::Function2ButtonOk(const QString & str) {
     QString function    = ui->Function->text();
     QString split       = ui->SplitEdit->text();
 
-    if(left_range.isEmpty() ||
-        right_range.isEmpty() ||
-        function.isEmpty() ||
-        split.isEmpty())  {
+    if(getButtonStatus())  {
         ui->ButtonOk->setEnabled(false);
-        ui->ButtonClear->setEnabled(false);
     }
     else {
         //Check left and right range
@@ -92,7 +112,6 @@ mPlots::Function2ButtonOk(const QString & str) {
             ui->Right_Side->setStyleSheet("QLineEdit {background-color: white;}");
 
             ui->ButtonOk->setEnabled(true);
-            ui->ButtonClear->setEnabled(true);
         }
     }
 }
@@ -109,10 +128,8 @@ mPlots::on_ButtonOk_clicked()
 {
     QString function = ui->Function->text();
 
-
-
     ui->Function->setEnabled(false);
-    buildGraph(((const QString)function));
+    buildGraph((static_cast<const QString>(function)    ));
     ui->Function->setEnabled(true);
 }
 
@@ -159,7 +176,7 @@ mPlots::buildGraph(const QString & s) {
     ui->pl->yAxis->setLabel(yaxis_name.isEmpty() ? "y" : yaxis_name);
     // set axes ranges, so we see all data:
     ui->pl->xAxis->setRange(left_range, right_range);
-    ui->pl->yAxis->setRange(minY, maxY);
+    ui->pl->yAxis->setRange(1.1*minY, 1.1*maxY);
 
     ui->pl->replot();
 }

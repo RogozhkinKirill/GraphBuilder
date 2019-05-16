@@ -23,10 +23,11 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void keyPressEvent(QKeyEvent *e);
+
 private slots:
     void on_actionNew_triggered();
     void on_actionExit_triggered();
-    void on_actionSave_triggered();
 
     void on_actionAbout_iLabka_triggered();
 

@@ -19,10 +19,29 @@ void
 MainWindow::setupWindow(void) {
     setWindowTitle(projectName);
 
+    setWindowIcon(QIcon("C:/Programming/iLabka/GraphBuilder-1/iLabka/Info/iLabka(GraphBuilder)"));
+
     //delete one tab with plot
     ui->tabWidget_Plots->removeTab(1);
 }
 
+void
+MainWindow::keyPressEvent(QKeyEvent *e) {
+    switch (e->key()) {
+        case Qt::Key_F7:
+        {
+        if(!ui->tab->getButtonStatus()) {
+            QString function = ui->tab->getFunction().text();
+
+            ui->tab->getFunction().setEnabled(false);
+            ui->tab->buildGraph((static_cast<const QString>(function)));
+            ui->tab->getFunction().setEnabled(true);
+        }
+        }
+        break;
+
+    }
+}
 
 
 void MainWindow::on_actionExit_triggered()
@@ -50,24 +69,6 @@ void MainWindow::on_actionNew_triggered()
     } while(plot_name.isEmpty());
 
    ui->tabWidget_Plots->addTab(new mPlots(), plot_name);
-}
-
-//TODO
-void MainWindow::on_actionSave_triggered()
-{
-    QString fileName = QFileDialog::getSaveFileName(this, "Save file");
-
-    QFile file(fileName);
-
-    if (!file.open(QIODevice::WriteOnly))
-    {
-        qDebug() << file.errorString();
-    } else {
-        int index = ui->tabWidget_Plots->currentIndex();
-        QWidget * w = ui->tabWidget_Plots->widget(index);
-
-        //->savePng(fileName);
-    }
 }
 
 void MainWindow::on_actionAbout_iLabka_triggered()

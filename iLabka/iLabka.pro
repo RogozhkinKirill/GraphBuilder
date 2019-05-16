@@ -8,6 +8,10 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
+VERSION = 0.1
+QMAKE_TARGET_COMPANY = MIPTs students
+QMAKE_TARGET_PRODUCT = iLabka/GraphBuilder
+
 TARGET = iLabka
 TEMPLATE = app
 
