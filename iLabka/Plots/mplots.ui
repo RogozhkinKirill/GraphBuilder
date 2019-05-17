@@ -54,45 +54,10 @@
               </property>
              </widget>
             </item>
-            <item row="7" column="1">
-             <widget class="QLineEdit" name="Left_Side">
-              <property name="text">
-               <string>-1</string>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="1">
-             <widget class="QLineEdit" name="SplitEdit">
-              <property name="text">
-               <string>1000</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QLineEdit" name="Function">
-              <property name="text">
-               <string>x</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="1">
-             <widget class="QLineEdit" name="Right_Side">
-              <property name="text">
-               <string>1</string>
-              </property>
-             </widget>
-            </item>
             <item row="6" column="1">
              <widget class="QLineEdit" name="YAxisName">
               <property name="text">
                <string>y</string>
-              </property>
-             </widget>
-            </item>
-            <item row="7" column="0">
-             <widget class="QLabel" name="LLSide">
-              <property name="text">
-               <string>Left Range:</string>
               </property>
              </widget>
             </item>
@@ -104,26 +69,12 @@
              </widget>
             </item>
             <item row="11" column="1">
-             <widget class="QRadioButton" name="ButtonFourier">
-              <property name="text">
-               <string>Fourier transform</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="0">
-             <widget class="QLabel" name="LFunction">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="text">
-               <string>Function:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="10" column="1">
              <widget class="QRadioButton" name="ButtonFunction">
               <property name="text">
                <string>Function</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -141,6 +92,65 @@
               </property>
              </widget>
             </item>
+            <item row="7" column="1">
+             <widget class="QLineEdit" name="Left_Side">
+              <property name="text">
+               <string>-1</string>
+              </property>
+             </widget>
+            </item>
+            <item row="9" column="1">
+             <widget class="QLineEdit" name="SplitEdit">
+              <property name="text">
+               <string>1000</string>
+              </property>
+             </widget>
+            </item>
+            <item row="8" column="1">
+             <widget class="QLineEdit" name="Right_Side">
+              <property name="text">
+               <string>1</string>
+              </property>
+             </widget>
+            </item>
+            <item row="12" column="1">
+             <widget class="QRadioButton" name="ButtonFourier">
+              <property name="text">
+               <string>Fourier transform</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QLabel" name="LFunction">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <property name="text">
+               <string>Function:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="7" column="0">
+             <widget class="QLabel" name="LLSide">
+              <property name="text">
+               <string>Left Range:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="1">
+             <widget class="QLineEdit" name="Function">
+              <property name="text">
+               <string>x</string>
+              </property>
+             </widget>
+            </item>
+            <item row="13" column="1">
+             <widget class="QRadioButton" name="ButtonRFourier">
+              <property name="text">
+               <string>Reverse Fourier transform</string>
+              </property>
+             </widget>
+            </item>
             <item row="6" column="0">
              <widget class="QLabel" name="YAxis">
               <property name="text">
@@ -148,10 +158,17 @@
               </property>
              </widget>
             </item>
-            <item row="12" column="1">
-             <widget class="QRadioButton" name="ButtonBoth">
+            <item row="10" column="0">
+             <widget class="QLabel" name="Power">
               <property name="text">
-               <string>Both</string>
+               <string>Power</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="1">
+             <widget class="QLineEdit" name="LPower">
+              <property name="text">
+               <string>1</string>
               </property>
              </widget>
             </item>

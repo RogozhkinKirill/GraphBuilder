@@ -50,15 +50,15 @@ vectorBase fastReverseFourierTransform(const vectorBase &input) {
 }
 
 void printTransformResult(const vectorBase &input, std::string msg, size_t n) {
-
-
     std::ofstream fourier;
-    if (msg == "output of fast fourier transform"){
+
+
+    if (msg == "fast"){
         fourier.open("../output/fourier.txt");
         fourier.clear();
     }
 
-    if (msg == "output of reverse fast fourier transform"){
+    if (msg == "reverse"){
         fourier.open("../output/reverseFourier.txt");
         fourier.clear();
     }

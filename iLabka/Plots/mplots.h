@@ -15,10 +15,20 @@
 #include <assert.h>
 #include <QLineEdit>
 
+#include <iomanip>
+#include <sstream>
+#include <vector>
+#include <iterator>
+
 #include "../../decoder/Decoder.h"
 #include "../../checker/Checker.h"
 #include "../../checker/utils/EmptyStringException.h"
 #include "../../parallel/execute.h"
+#include "../../transforms/fourier.h"
+
+#define DIRECT 0
+#define REVERSE 1
+
 
 namespace Ui {
 class mPlots;
@@ -44,6 +54,9 @@ private:
 
     void setupPlot(void);
     void setupDefault(void);
+
+    void buildFunction(std::string &);
+    void buildFourier(std::string &, int);
 
 private slots:
     void Function2ButtonOk(const QString &);

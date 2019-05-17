@@ -1,6 +1,7 @@
 #include "mplots.h"
 #include "ui_mplots.h"
 
+
 mPlots::mPlots(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::mPlots)
@@ -21,14 +22,18 @@ mPlots::setupPlot(void) {
 
     ui->pl->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 
+    //Choose Function
+    ui->ButtonFunction->setChecked(true);
+
     //Enable only doubles in range lines
     ui->Left_Side->setValidator(new QDoubleValidator(this));
     ui->Right_Side->setValidator(new QDoubleValidator(this));
 
+
     //Enable only unsighned in split range
     QRegExp rx("[0-9]+");
     ui->SplitEdit->setValidator(new QRegExpValidator(rx , this));
-
+    ui->LPower->setValidator(new QRegExpValidator(rx , this));
 
     connect(ui->Function,   SIGNAL(textChanged(const QString &)) ,
             this , SLOT(Function2ButtonOk(const QString &)));
@@ -37,6 +42,8 @@ mPlots::setupPlot(void) {
     connect(ui->Right_Side, SIGNAL(textChanged(const QString &)) ,
             this , SLOT(Function2ButtonOk(const QString &)));
     connect(ui->SplitEdit,  SIGNAL(textChanged(const QString &)) ,
+            this , SLOT(Function2ButtonOk(const QString &)));
+    connect(ui->LPower,  SIGNAL(textChanged(const QString &)) ,
             this , SLOT(Function2ButtonOk(const QString &)));
 }
 
@@ -69,6 +76,8 @@ mPlots::setupDefault(void) {
     ui->ButtonClear->setEnabled(true);
 
 
+    ui->ButtonFunction->setChecked(true);
+
     //Default text
     ui->Function->setText("x^2");
     ui->Left_Side->setText("-1");
@@ -80,6 +89,7 @@ mPlots::setupDefault(void) {
     ui->pl->xAxis->setRange(0,1);
     ui->pl->yAxis->setRange(0,1);
 
+    //Clear Graph's settings
     ui->pl->clearGraphs();
     ui->pl->clearItems();
     ui->pl->clearPlottables();
@@ -90,18 +100,15 @@ mPlots::setupDefault(void) {
 
 void
 mPlots::Function2ButtonOk(const QString & str) {
-    QString left_range  = ui->Left_Side->text();
-    QString right_range = ui->Right_Side->text();
-    QString function    = ui->Function->text();
-    QString split       = ui->SplitEdit->text();
-
-    if(getButtonStatus())  {
+    if(getButtonStatus() && ui->LPower->text().isEmpty())  {
         ui->ButtonOk->setEnabled(false);
     }
     else {
         //Check left and right range
         double left  = ui->Left_Side->text().toDouble();
         double right = ui->Right_Side->text().toDouble();
+
+
 
         if(left >= right) {
             ui->Left_Side->setStyleSheet("QLineEdit {background-color: red;}");
@@ -129,7 +136,7 @@ mPlots::on_ButtonOk_clicked()
     QString function = ui->Function->text();
 
     ui->Function->setEnabled(false);
-    buildGraph((static_cast<const QString>(function)    ));
+    buildGraph((static_cast<const QString>(function)));
     ui->Function->setEnabled(true);
 }
 
@@ -137,6 +144,22 @@ void
 mPlots::buildGraph(const QString & s) {
     std::string str = s.toStdString();
 
+    if(ui->ButtonFunction->isChecked()) {
+        buildFunction(str);
+    }
+    if(ui->ButtonFourier->isChecked()) {
+        buildFourier(str, DIRECT);
+    }
+    if(ui->ButtonRFourier->isChecked()) {
+        buildFourier(str, REVERSE);
+    }
+
+    ui->pl->replot();
+}
+
+
+void
+mPlots::buildFunction(std::string & str) {
     QString xaxis_name = ui->XAxisName->text();
     QString yaxis_name = ui->YAxisName->text();
 
@@ -177,8 +200,46 @@ mPlots::buildGraph(const QString & s) {
     // set axes ranges, so we see all data:
     ui->pl->xAxis->setRange(left_range, right_range);
     ui->pl->yAxis->setRange(1.1*minY, 1.1*maxY);
+}
 
-    ui->pl->replot();
+void
+mPlots::buildFourier(std::string & str, int direction) {
+    std::string REVERSEMSG = "reverse";
+    std::string COMMONMSG = "fast";
+
+    size_t n = static_cast<size_t>(ui->LPower->text().toInt());
+
+    qDebug() << "Hi";
+
+    //Split on tokens
+    vectorBase input(n);
+    std::vector<std::string> tokens;
+    std::istringstream f(str);
+    std::string s;
+    while (getline(f, s, ' ')) {
+        tokens.push_back(s);
+    }
+
+    if(tokens.size() != n)
+        return;
+
+    for(size_t i=0; i<n; ++i) {
+        qDebug() << tokens[i].c_str();
+        input[i] = std::stod(tokens[i]);
+    }
+
+
+    if(direction == DIRECT) {
+        vectorBase result = fastFourierTransform(input);
+        printTransformResult(result, REVERSEMSG, n);
+    }
+
+    if(direction == REVERSE) {
+        vectorBase reverseResult = fastReverseFourierTransform(input);
+        printTransformResult(reverseResult, COMMONMSG, n);
+    }
+
+    qDebug() << "end Tranformation";
 }
 
 
